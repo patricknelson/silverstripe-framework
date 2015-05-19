@@ -38,6 +38,8 @@ class ParameterConfirmationToken {
 		if (file_exists($file)) {
 			$content = file_get_contents($file);
 			unlink($file);
+		} else {
+			return false;
 		}
 
 		return $content == $token;
@@ -52,7 +54,7 @@ class ParameterConfirmationToken {
 		$this->token = isset($_GET[$parameterName.'token']) ? $_GET[$parameterName.'token'] : null;
 
 		// If a token was provided, but isn't valid, ignore it
-		if ($this->token && (!$this->checkToken($this->token))) $this->token = null;
+		if (!$this->checkToken($this->token)) $this->token = null;
 	}
 	
 	/**
